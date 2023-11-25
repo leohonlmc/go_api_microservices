@@ -1,5 +1,7 @@
 # Go API Microservices
 
+![Go Bear Logo](./go.png)
+
 ## Project Overview
 
 `go_api_microservices` is a Go-based microservices project, using Gin for routing and MongoDB for data storage. This API provides endpoints to retrieve data from `inventories` and `news` collections.

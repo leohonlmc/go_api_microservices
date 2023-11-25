@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -69,6 +70,13 @@ func getInventoriesHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
 //get news
 func getNewsHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		location := c.Query("location")
+		category := c.Query("category")
+
+		fmt.Println(location)
+		fmt.Println(category)
+
         documents, err := GetAllDocuments(mongoDBClient, "news")
         if err != nil {
             c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

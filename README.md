@@ -6,7 +6,7 @@
 </p>
 
 <p>
-  <img src="./go.png" alt="Go Bear Logo" width="200" align="right"/>
+  <img src="./go.png" alt="Go Bear Logo" width="400" align="right"/>
   <b>Project Overview</b><br>
   `go_api_microservices` is a Go-based microservices project, using Gin for routing and MongoDB for data storage. This API provides endpoints to retrieve data from `inventories` and `news` collections.
 </p>

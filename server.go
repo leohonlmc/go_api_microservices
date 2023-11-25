@@ -66,6 +66,18 @@ func getInventoriesHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
     }
 }
 
+//get news
+func getNewsHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
+	return func(c *gin.Context) {
+        documents, err := GetAllDocuments(mongoDBClient, "news")
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            return
+        }
+        c.JSON(http.StatusOK, documents)
+    }
+}
+
 func main() {
 	err := godotenv.Load()
 
@@ -83,7 +95,11 @@ func main() {
 
 	r := gin.Default()
 
+	//get inventories
 	r.GET("/inventories", getInventoriesHandler(mongoDBClient))
+
+	//get news
+	r.GET("/news", getNewsHandler(mongoDBClient))
 
 	r.Run(":8080")
 }

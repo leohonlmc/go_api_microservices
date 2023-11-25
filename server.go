@@ -63,10 +63,10 @@ func GetAllDocuments(m *MongoDBClient, collectionName string, location, category
     if err != nil {
         return nil, err
     }
-    defer cursor.Close(ctx)  // Use ctx here as well
+    defer cursor.Close(ctx) 
 	
     var results []bson.M
-    if err = cursor.All(ctx, &results); err != nil {  // And here
+    if err = cursor.All(ctx, &results); err != nil {
         return nil, err
     }
 

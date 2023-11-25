@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -38,17 +38,35 @@ func (m *MongoDBClient) Close() error {
     return m.Client.Disconnect(context.Background())
 }
 
-func GetAllDocuments(m *MongoDBClient, collectionName string) ([]bson.M, error) {
+func respondWithError(c *gin.Context, httpStatusCode int, err error) {
+    log.Printf("Error: %v", err)
+ 
+    c.JSON(httpStatusCode, gin.H{"error": err.Error()})
+}
+
+func GetAllDocuments(m *MongoDBClient, collectionName string, location, category string) ([]bson.M, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
+
 	collection := m.Client.Database(m.DBName).Collection(collectionName)
 
-    cursor, err := collection.Find(context.Background(), bson.M{})
+	filter := bson.M{}
+    if location != "" {
+        filter["location"] = location
+    }
+    if category != "" {
+        filter["category"] = category
+    }
+
+	cursor, err := collection.Find(ctx, filter)
     if err != nil {
         return nil, err
     }
-    defer cursor.Close(context.Background())
-
+    defer cursor.Close(ctx)  // Use ctx here as well
+	
     var results []bson.M
-    if err = cursor.All(context.Background(), &results); err != nil {
+    if err = cursor.All(ctx, &results); err != nil {  // And here
         return nil, err
     }
 
@@ -58,9 +76,13 @@ func GetAllDocuments(m *MongoDBClient, collectionName string) ([]bson.M, error) 
 //get inventories
 func getInventoriesHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
-        documents, err := GetAllDocuments(mongoDBClient, "inventories")
+
+		location := c.Query("location")
+		category := c.Query("category")
+
+        documents, err := GetAllDocuments(mongoDBClient, "inventories", location, category)
         if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            respondWithError(c, http.StatusInternalServerError, err)
             return
         }
         c.JSON(http.StatusOK, documents)
@@ -70,16 +92,9 @@ func getInventoriesHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
 //get news
 func getNewsHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		location := c.Query("location")
-		category := c.Query("category")
-
-		fmt.Println(location)
-		fmt.Println(category)
-
-        documents, err := GetAllDocuments(mongoDBClient, "news")
+        documents, err := GetAllDocuments(mongoDBClient, "news", "", "")
         if err != nil {
-            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            respondWithError(c, http.StatusInternalServerError, err)
             return
         }
         c.JSON(http.StatusOK, documents)

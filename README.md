@@ -44,15 +44,21 @@
 
 ### API Endpoints
 
-- **Get Inventories**
-  `GET /inventories` - Fetches documents from the `inventories` collection.
+- **Get Inventories**: `GET /inventories`
 
-- **Get News**
-  `GET /news` - Retrieves documents from the `news` collection.
+  - Fetches documents from the `inventories` collection.
+  - Supports optional query parameters `location` and `category` for filtering.
 
-### Example Request
+- **Get News**: `GET /news`
+  - Retrieves documents from the `news` collection.
 
-Using `curl` to fetch inventories:
+### Example Requests
+
+- Fetching inventories with filtering:
+  curl "http://localhost:8080/inventories?location=Scarborough&category=Beverages"
+
+- Fetching news:
+  curl http://localhost:8080/news
 
 ## Contributing
 

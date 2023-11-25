@@ -1,6 +1,6 @@
 # Go API Microservices
 
-![Go Bear Logo](./go.png)
+<img src="./go.png" alt="Go Bear Logo" width="200" height="400">
 
 ## Project Overview
 

@@ -134,6 +134,6 @@ func main() {
 	//get news
 	r.GET("/news", getNewsHandler(mongoDBClient))
 
-	r.Run(":8080")
+	r.Run(":" + os.Getenv("PORT"))
 }
 

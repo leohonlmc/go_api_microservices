@@ -55,10 +55,10 @@
 ### Example Requests
 
 - Fetching inventories with filtering:
-  curl "http://localhost:8080/inventories?location=Scarborough&category=Beverages"
+  curl "https://go-api-microservices.onrender.com/inventories?location=Scarborough&category=Beverages"
 
 - Fetching news:
-  curl http://localhost:8080/news
+  curl https://go-api-microservices.onrender.com/news
 
 ## Contributing
 

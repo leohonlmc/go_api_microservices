@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -100,6 +101,15 @@ func getNewsHandler(mongoDBClient *MongoDBClient) gin.HandlerFunc {
         c.JSON(http.StatusOK, documents)
     }
 }
+
+func helloworld() {
+    fmt.Println("Hello World!")
+}
+
+func goodbye() {
+    fmt.Println("Good Bye!")
+}
+
 
 func main() {
 	err := godotenv.Load()

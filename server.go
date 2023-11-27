@@ -119,6 +119,11 @@ func main() {
 	}
 
 	dbMongo := os.Getenv("DB_MONGO")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080" // Default port for local testing
+	}
 
     mongoDBClient, err := NewMongoDBClient(dbMongo, "SFN")
     if err != nil {
@@ -134,6 +139,6 @@ func main() {
 	//get news
 	r.GET("/news", getNewsHandler(mongoDBClient))
 
-	r.Run(":" + os.Getenv("PORT"))
+	r.Run(":" + port)
 }
 

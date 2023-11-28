@@ -112,11 +112,13 @@ func goodbye() {
 
 
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-	  log.Fatal("Error loading .env file")
-	}
+    
+    if os.Getenv("ENV") != "production" {
+        err := godotenv.Load()
+        if err != nil {
+            log.Fatal("Error loading .env file")
+        }
+    }
 
 	dbMongo := os.Getenv("DB_MONGO")
 	port := os.Getenv("PORT")

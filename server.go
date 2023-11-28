@@ -129,6 +129,10 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
+
+    cwd, _ := os.Getwd()
+	log.Println("Current working directory:", cwd)
+
     defer mongoDBClient.Close()
 
 	r := gin.Default()

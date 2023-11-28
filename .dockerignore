@@ -1,0 +1,17 @@
+# Ensure .env is not ignored
+!.env
+
+# Ignore the Go build cache directory
+go-build/
+
+# Ignore vendor directory
+vendor/
+
+# Ignore git directory
+.git/
+
+# Ignore test files
+*_test.go
+
+# Ignore compiled binary
+myapp
